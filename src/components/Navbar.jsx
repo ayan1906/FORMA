@@ -27,7 +27,7 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-black/[0.06] bg-[#FBF9F7]/95 backdrop-blur-xl">
+      <header className="sticky top-0 z-40 border-b border-black/[0.06] backdrop-blur-xl">
         <div className="mx-auto flex h-[76px] max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:px-12">
 
           {/* Left Section */}
@@ -66,7 +66,7 @@ const Navbar = () => {
 
           <div className="flex items-center gap-3 sm:gap-5 lg:gap-8">
 
-            <div className="hidden w-56 items-center gap-3 rounded-full border border-black/[0.07] bg-[#F2F1ED] px-4 py-2.5 transition focus-within:border-black/30 md:flex lg:w-100">
+            <div className="hidden w-56 items-center gap-3 rounded-full border border-black/[0.07] bg-[#fffffd] px-4 py-2.5 transition focus-within:border-black/30 md:flex lg:w-100">
               <Search size={17} className="shrink-0 text-[#807e7e]" />
 
               <input
@@ -81,7 +81,7 @@ const Navbar = () => {
               aria-label="Search products"
               className="rounded-full p-2 text-[#222] transition hover:bg-black/5 md:hidden"
             >
-              <Search size={21} strokeWidth={1.7} />
+              {/* <Search size={21} strokeWidth={1.7} /> */}
             </button>
 
             <div className="flex items-center gap-1 sm:gap-3">
