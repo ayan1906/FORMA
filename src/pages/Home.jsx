@@ -67,7 +67,7 @@ const Home = () => {
       </div>
 
 
-      <h2 className='mt-10 ml-3  text-lg lg:text-xl  uppercase font-mono tracking-wider'>Featured Category</h2>
+      <h2 className='mt-10 ml-7   text-lg lg:text-xl  uppercase font-mono tracking-wider'>Featured Category</h2>
       <div className='grid grid-cols-4 xl:grid-cols-6 gap-4 mt-2 mx-3'>
         {categories?.map((cat, index) => (
           <div className={`${index >= 4 ? 'hidden lg:block' : 'block'}  bg-[#e4e3e3] rounded-xl py-2`} key={index}>
@@ -81,7 +81,7 @@ const Home = () => {
 
 
       <div className='flex items-center justify-between mt-10 mx-3'>
-        <h2 className='text-lg lg:text-xl  uppercase font-mono tracking-wider'>Featured Products</h2>
+        <h2 className='text-lg lg:text-xl  uppercase font-mono tracking-wider ml-4'>Featured Products</h2>
         <button className='flex items-center gap-1 group cursor-pointer font-medium tracking-wider'>View All <MoveRight className='group-hover:translate-x-1.5 transition duration-200' /></button>
       </div>
       <div className='grid grid-cols-2 xl:grid-cols-4 gap-4 mt-2 mx-3'>

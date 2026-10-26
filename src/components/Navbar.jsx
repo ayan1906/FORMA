@@ -96,9 +96,12 @@ const Navbar = () => {
               <NavLink
                 to="/cart"
                 aria-label="Shopping cart"
-                className="rounded-full p-2 text-[#292929] transition hover:bg-black/5"
+                className="relative rounded-full p-2 text-[#292929] transition hover:bg-black/5"
               >
-                <ShoppingCart size={21} strokeWidth={1.7} />
+                <div className="releative">
+                  <ShoppingCart size={21} strokeWidth={1.7} />
+                <h6 className="absolute -top-2 font-bold right-1">0</h6>
+                </div>
               </NavLink>
 
               <NavLink
