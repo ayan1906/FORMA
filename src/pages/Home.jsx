@@ -10,12 +10,32 @@ const Home = () => {
 
   const categories = [
     {
-      name: "",
-      image: ""
+      name: "Fragrances",
+      image: "/category/frag.png"
+    },
+    {
+      name: "Laptops",
+      image: "/category/laptop.png"
+    },
+    {
+      name: "Mens-Shirts",
+      image: "/category/mensshirt.png"
+    },
+    {
+      name: "Smart Phones",
+      image: "/category/phone.png"
+    },
+    {
+      name: "Sunglasses",
+      image: "/category/sunglass.png"
+    },
+    {
+      name: "Womens-jewellery",
+      image: "/category/jewel.png"
     },
 
   ]
-  const category = ["Fragrances", "Laptops", "Mens-Shirts", "Smart Phones", "Sunglasses", "Womens-jewellery"]
+  // const category = ["Fragrances", "Laptops", "Mens-Shirts", "Smart Phones", "Sunglasses", "Womens-jewellery"]
 
 
   return (
@@ -29,7 +49,7 @@ const Home = () => {
             Discover premium products for your everyday life. <br />
             <span className='hidden lg:flex'>Clean design, Better living</span>
           </p>
-          <button className='group flex items-center justify-start cursor-pointer border border-black text-sm w-32 px-4 py-2.5 rounded-full bg-black text-white font-bold gap-2 hover:bg-white hover:text-black transition duration-200'>
+          <button className='group flex items-center justify-start cursor-pointer border border-black text-sm w-32 mt-4 px-4 py-2.5 rounded-full bg-black text-white font-bold gap-2 hover:bg-white hover:text-black transition duration-200'>
             Shop Now <ArrowRight className='w-4 h-4 group-hover:translate-x-1 transition duration-200' />
           </button>
         </div>
@@ -41,11 +61,17 @@ const Home = () => {
       </div>
 
 
-      {category?.map((cat, index) => (
-        <div key={index}>
-          <h1>{cat}</h1>
-        </div>
-      ))}
+      <h2 className='mt-10 ml-3  text-lg lg:text-xl  uppercase font-mono tracking-wider'>Featured Category</h2>
+      <div className='grid grid-cols-4 lg:grid-cols-6 gap-4 mt-2 mx-3'>
+        {categories?.map((cat, index) => (
+          <div className={`${index >= 4 ? 'hidden lg:block' : 'block'}  bg-[#e4e3e3] rounded-xl py-2`} key={index}>
+            <div className='flex flex-col items-center justify-center cursor-pointer group'>
+              <img className=' w-30 h-24 lg:w-46 lg:h-50 group-hover:scale-110 transition duration-300' src={cat.image} alt="" />
+              <h1 className='text-sm font-medium text-[#1f1f1fe5]'>{cat.name}</h1>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
