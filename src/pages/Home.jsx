@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Heart, Star, MoveRight } from 'lucide-react'
 import { useProducts } from '../context/ProductContext'
 import ProductLoader from '../components/ProductLoader'
+import ProductCard from '../components/ProductCard'
+
 const Home = () => {
   const { data, loading, error } = useProducts()
   if (loading) return <ProductLoader />
@@ -35,7 +37,11 @@ const Home = () => {
     },
 
   ]
-  // const category = ["Fragrances", "Laptops", "Mens-Shirts", "Smart Phones", "Sunglasses", "Womens-jewellery"]
+
+
+  const needprod = [101, 93, 173, 155]
+  const featprod = data.filter((item) => needprod.includes(item.id))
+
 
 
   return (
@@ -62,15 +68,27 @@ const Home = () => {
 
 
       <h2 className='mt-10 ml-3  text-lg lg:text-xl  uppercase font-mono tracking-wider'>Featured Category</h2>
-      <div className='grid grid-cols-4 lg:grid-cols-6 gap-4 mt-2 mx-3'>
+      <div className='grid grid-cols-4 xl:grid-cols-6 gap-4 mt-2 mx-3'>
         {categories?.map((cat, index) => (
           <div className={`${index >= 4 ? 'hidden lg:block' : 'block'}  bg-[#e4e3e3] rounded-xl py-2`} key={index}>
             <div className='flex flex-col items-center justify-center cursor-pointer group'>
-              <img className=' w-30 h-24 lg:w-46 lg:h-50 group-hover:scale-110 transition duration-300' src={cat.image} alt="" />
-              <h1 className='text-sm font-medium text-[#1f1f1fe5]'>{cat.name}</h1>
+              <img className=' w-30 h-24 xl:w-46 xl:h-50 group-hover:scale-110 transition duration-300' src={cat.image} alt="" />
+              <h1 className='text-xs flex font-medium text-[#1f1f1fe5]'>{cat.name}</h1>
             </div>
           </div>
         ))}
+      </div>
+
+
+      <div className='flex items-center justify-between mt-10 mx-3'>
+        <h2 className='text-lg lg:text-xl  uppercase font-mono tracking-wider'>Featured Products</h2>
+        <button className='flex items-center gap-1 group cursor-pointer font-medium tracking-wider'>View All <MoveRight className='group-hover:translate-x-1.5 transition duration-200' /></button>
+      </div>
+      <div className='grid grid-cols-2 xl:grid-cols-4 gap-4 mt-2 mx-3'>
+        {featprod.map((item, index) => (
+          <ProductCard key={index} image={item.images[0]} title={item.title} price={item.price} rating={item.rating} review={item.reviews.length} />
+        ))
+        }
       </div>
     </div>
   )
