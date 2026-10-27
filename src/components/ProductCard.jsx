@@ -16,7 +16,7 @@ const ProductCard = ({ image, title, price, rating, review }) => {
         {/* Wishlist Heart Button */}
         <button 
           aria-label="Add to wishlist"
-          className='absolute top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-md text-gray-700 hover:text-red-500 hover:bg-white transition-colors duration-200 shadow-sm'
+          className='absolute cursor-pointer top-3 right-3 p-2 rounded-full bg-white/80 backdrop-blur-md text-gray-700 hover:text-red-500 hover:bg-white transition-colors duration-200 shadow-sm'
         >
           <Heart className='w-4 h-4' />
         </button>
