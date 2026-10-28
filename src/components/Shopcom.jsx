@@ -215,9 +215,11 @@ const Shopcom = () => {
                     <div className='grid grid-cols-2 xl:grid-cols-4 gap-4 mt-6 mx-6 lg:mx-12'>
                         {displaycard.map((item, index) => (
                             <div key={index}>
-                                <NavLink to={`/product/:${item.id}`}>
+                                <NavLink to={`/product/${item.id}`}>
                                     <ProductCard
-                                    image={item.images[0]}
+                                        id={item.id}
+                                        item={item}
+                                        image={item.images[0]}
                                     title={item.title}
                                     price={item.price}
                                     rating={item.rating}

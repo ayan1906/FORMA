@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { ArrowRight, Heart, Star, MoveRight } from 'lucide-react'
 import { useProducts } from '../context/ProductContext'
 import ProductLoader from '../components/ProductLoader'
 import ProductCard from '../components/ProductCard'
 
 const Home = () => {
+  const navigate = useNavigate();
   const { data, loading, error } = useProducts()
   if (loading) return <ProductLoader />
   if (error) return <h1>Error here</h1>
@@ -35,14 +37,12 @@ const Home = () => {
       name: "Womens-jewellery",
       image: "/category/jewel.png"
     },
-
+    
   ]
-
-
+  
+  
   const needprod = [101, 93, 173, 155]
   const featprod = data.filter((item) => needprod.includes(item.id))
-
-
 
   return (
     <div>
@@ -55,7 +55,7 @@ const Home = () => {
             Discover premium products for your everyday life. <br />
             <span className='hidden lg:flex'>Clean design, Better living</span>
           </p>
-          <button className='group flex items-center justify-start cursor-pointer border border-black text-sm w-32 mt-4 px-4 py-2.5 rounded-full bg-black text-white font-bold gap-2 hover:bg-white hover:text-black transition duration-200'>
+          <button onClick={() => navigate('/shop')} className='group flex items-center justify-start cursor-pointer border border-black text-sm w-32 mt-4 px-4 py-2.5 rounded-full bg-black text-white font-bold gap-2 hover:bg-white hover:text-black transition duration-200'>
             Shop Now <ArrowRight className='w-4 h-4 group-hover:translate-x-1 transition duration-200' />
           </button>
         </div>
@@ -67,12 +67,12 @@ const Home = () => {
       </div>
 
 
-      <h2 className='mt-10 ml-7   text-lg lg:text-xl  uppercase font-mono tracking-wider'>Featured Category</h2>
+      <h2 className='mt-10 ml-7 text-lg lg:text-xl uppercase font-mono tracking-wider'>Featured Category</h2>
       <div className='grid grid-cols-4 xl:grid-cols-6 gap-4 mt-2 mx-3'>
         {categories?.map((cat, index) => (
-          <div className={`${index >= 4 ? 'hidden lg:block' : 'block'}  bg-[#e4e3e3] rounded-xl py-2`} key={index}>
+          <div className={`${index >= 4 ? 'hidden lg:block' : 'block'} bg-[#e4e3e3] rounded-xl py-2`} key={index}>
             <div className='flex flex-col items-center justify-center cursor-pointer group'>
-              <img className=' w-30 h-24 xl:w-46 xl:h-50 group-hover:scale-110 transition duration-300' src={cat.image} alt="" />
+              <img className='w-30 h-24 xl:w-46 xl:h-50 group-hover:scale-110 transition duration-300' src={cat.image} alt="" />
               <h1 className='text-xs flex font-medium text-[#1f1f1fe5]'>{cat.name}</h1>
             </div>
           </div>
@@ -81,14 +81,25 @@ const Home = () => {
 
 
       <div className='flex items-center justify-between mt-10 mx-3'>
-        <h2 className='text-lg lg:text-xl  uppercase font-mono tracking-wider ml-4'>Featured Products</h2>
-        <button className='flex items-center gap-1 group cursor-pointer font-medium tracking-wider'>View All <MoveRight className='group-hover:translate-x-1.5 transition duration-200' /></button>
+        <h2 className='text-lg lg:text-xl uppercase font-mono tracking-wider ml-4'>Featured Products</h2>
+        <button onClick={() => navigate('/shop')} className='flex items-center gap-1 group cursor-pointer font-medium tracking-wider'>
+          View All <MoveRight className='group-hover:translate-x-1.5 transition duration-200' />
+        </button>
       </div>
       <div className='grid grid-cols-2 xl:grid-cols-4 gap-4 mt-2 mx-3'>
-        {featprod.map((item, index) => (
-          <ProductCard key={index} image={item.images[0]} title={item.title} price={item.price} rating={item.rating} review={item.reviews.length} />
-        ))
-        }
+        {featprod.map((item) => (
+          <div key={item.id} onClick={() => navigate(`/product/${item.id}`)}>
+            <ProductCard
+              id={item.id}
+              image={item.images[0]}
+              title={item.title}
+              price={item.price}
+              rating={item.rating}
+              review={item.reviews.length}
+              item={item}
+            />
+          </div>
+        ))}
       </div>
     </div>
   )

@@ -7,6 +7,35 @@ export const ProductProvider = ({ children }) => {
     const [loading, setloading] = useState(true)
     const [error, seterror] = useState(null)
 
+    const [wishlist, setWishlist] = useState(() => {
+        try {
+            const saved = localStorage.getItem('wishlist')
+            return saved ? JSON.parse(saved) : []
+        } catch {
+            return []
+        }
+    })
+
+    useEffect(() => {
+        try {
+            localStorage.setItem('wishlist', JSON.stringify(wishlist))
+        } catch (e) {
+            console.error('Failed to save wishlist', e)
+        }
+    }, [wishlist])
+
+    const toggleWishlist = (product) => {
+        if (!product || !product.id) return
+        setWishlist((prev) => {
+            const exists = prev.some((item) => item.id === product.id)
+            if (exists) {
+                return prev.filter((item) => item.id !== product.id)
+            } else {
+                return [...prev, product]
+            }
+        })
+    }
+
     useEffect(() => {
         const fetchprod = async () => {
             try {
@@ -24,15 +53,13 @@ export const ProductProvider = ({ children }) => {
         fetchprod()
     }, [])
 
-
-
-
-    return <ProductContext.Provider value={{ data, loading, error }}>
-        {children}
-    </ProductContext.Provider>
+    return (
+        <ProductContext.Provider value={{ data, loading, error, wishlist, toggleWishlist }}>
+            {children}
+        </ProductContext.Provider>
+    )
 }
 
 export const useProducts = () => {
     return useContext(ProductContext)
 }
-

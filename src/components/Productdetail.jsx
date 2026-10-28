@@ -4,10 +4,21 @@ import { useProducts } from '../context/ProductContext'
 import ProductLoader from './ProductLoader'
 import { Star, ShoppingBag, Heart, Minus, Plus, Truck, RotateCcw, ShieldCheck } from 'lucide-react'
 
-const Productdetail = () => {
+const Productdetail = ({ image, title, price, rating, review, id, item, onWishlist }) => {
+    const { wishlist, toggleWishlist } = useProducts()
+    const isWishlisted = wishlist?.some((prod) => prod.id === id)
+
+    const handleWishlistClick = (e) => {
+        e.stopPropagation()
+        const productData = item || { id, title, price, image, rating, review }
+        toggleWishlist(productData)
+        if (onWishlist) {
+            onWishlist(productData)
+        }
+    }
     const { data, loading, error } = useProducts()
     const params = useParams()
-    
+
     const [quantity, setQuantity] = useState(1)
     const [selectedImage, setSelectedImage] = useState(0)
     const [selectedColor, setSelectedColor] = useState('bg-[#f3eee2]')
@@ -17,7 +28,7 @@ const Productdetail = () => {
     if (loading) return <ProductLoader />
     if (error) return <h1 className="text-center mt-20 text-red-500 font-medium">Error loading product details</h1>
 
-const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
+    const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
 
     if (!featprod) {
         return <h1 className="text-center mt-20 text-lg font-medium text-gray-600">Product not found</h1>
@@ -38,7 +49,7 @@ const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
     return (
         <div className="max-w-7xl mx-auto px-6 py-16 font-sans text-neutral-900 bg-white">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                
+
                 {/* Left Side: Minimalist Gallery */}
                 <div className="flex gap-4">
                     <div className="flex flex-col gap-3">
@@ -46,9 +57,8 @@ const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
                             <button
                                 key={i}
                                 onClick={() => setSelectedImage(i)}
-                                className={`w-20 h-20 rounded-lg overflow-hidden border cursor-pointer transition ${
-                                    selectedImage === i ? 'border-black opacity-100' : 'border-neutral-200 opacity-60 hover:opacity-100'
-                                }`}
+                                className={`w-20 h-20 rounded-lg overflow-hidden border cursor-pointer transition ${selectedImage === i ? 'border-black opacity-100' : 'border-neutral-200 opacity-60 hover:opacity-100'
+                                    }`}
                             >
                                 <img src={img} alt="" className="w-full h-full object-cover" />
                             </button>
@@ -56,9 +66,9 @@ const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
                     </div>
 
                     <div className="flex-1 h-[520px] bg-neutral-50 rounded-xl overflow-hidden flex items-center justify-center border border-neutral-100">
-                        <img 
-                            src={featprod.images?.[selectedImage] || featprod.thumbnail} 
-                            alt={featprod.title} 
+                        <img
+                            src={featprod.images?.[selectedImage] || featprod.thumbnail}
+                            alt={featprod.title}
                             className="w-full h-full object-cover"
                         />
                     </div>
@@ -74,7 +84,7 @@ const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
 
                     <div className="flex items-center gap-3">
                         <div className="flex items-center gap-1 text-neutral-900 font-semibold text-sm">
-                            <Star className="w-4 h-4 fill-neutral-900" /> 
+                            <Star className="w-4 h-4 fill-neutral-900" />
                             <span>{featprod.rating || 4.8}</span>
                         </div>
                         <span className="text-neutral-300">|</span>
@@ -99,9 +109,8 @@ const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
                                 <button
                                     key={idx}
                                     onClick={() => setSelectedColor(col.class)}
-                                    className={`w-7 h-7 rounded-full ${col.class} transition cursor-pointer ${
-                                        selectedColor === col.class ? 'ring-2 ring-offset-2 ring-black' : 'opacity-80 hover:opacity-100'
-                                    }`}
+                                    className={`w-7 h-7 rounded-full ${col.class} transition cursor-pointer ${selectedColor === col.class ? 'ring-2 ring-offset-2 ring-black' : 'opacity-80 hover:opacity-100'
+                                        }`}
                                 />
                             ))}
                         </div>
@@ -115,11 +124,10 @@ const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
                                 <button
                                     key={size}
                                     onClick={() => setSelectedSize(size)}
-                                    className={`w-12 h-12 rounded-lg border text-sm font-medium transition cursor-pointer flex items-center justify-center ${
-                                        selectedSize === size 
-                                            ? 'border-black bg-black text-white' 
-                                            : 'border-neutral-200 bg-white text-neutral-800 hover:border-neutral-400'
-                                    }`}
+                                    className={`w-12 h-12 rounded-lg border text-sm font-medium transition cursor-pointer flex items-center justify-center ${selectedSize === size
+                                        ? 'border-black bg-black text-white'
+                                        : 'border-neutral-200 bg-white text-neutral-800 hover:border-neutral-400'
+                                        }`}
                                 >
                                     {size}
                                 </button>
@@ -130,7 +138,7 @@ const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
                     {/* Quantity & Actions */}
                     <div className="flex items-center gap-4 pt-2">
                         <div className="flex items-center border border-neutral-200 rounded-lg overflow-hidden bg-neutral-50 h-12">
-                            <button 
+                            <button
                                 onClick={handleDecrement}
                                 className="px-3 text-neutral-600 hover:bg-neutral-200 transition cursor-pointer h-full flex items-center justify-center"
                             >
@@ -139,7 +147,7 @@ const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
                             <span className="px-4 font-semibold text-neutral-900 text-sm">
                                 {quantity}
                             </span>
-                            <button 
+                            <button
                                 onClick={handleIncrement}
                                 className="px-3 text-neutral-600 hover:bg-neutral-200 transition cursor-pointer h-full flex items-center justify-center"
                             >
@@ -151,8 +159,11 @@ const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
                             <ShoppingBag size={18} /> Add to Cart
                         </button>
 
-                        <button className="h-12 w-12 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition text-neutral-700 cursor-pointer flex items-center justify-center">
-                            <Heart size={18} />
+                        <button onClick={handleWishlistClick} className="h-12 w-12 border border-neutral-200 rounded-lg hover:bg-neutral-50 transition text-neutral-700 cursor-pointer flex items-center justify-center">
+                            <Heart
+                                className={`w-4 h-4 transition-colors ${isWishlisted ? 'text-red-500 fill-red-500' : 'text-gray-700 hover:text-red-500'
+                                    }`}
+                            />
                         </button>
                     </div>
 
@@ -190,9 +201,8 @@ const featprod = data.filter((item) => params.id.includes(item.id)).at(-1)
                         <button
                             key={tab}
                             onClick={() => setActiveTab(tab)}
-                            className={`text-sm font-semibold capitalize cursor-pointer pb-2 relative transition ${
-                                activeTab === tab ? 'text-neutral-900 after:absolute after:bottom-[-17px] after:left-0 after:w-full after:h-[2px] after:bg-black' : 'text-neutral-400 hover:text-neutral-700'
-                            }`}
+                            className={`text-sm font-semibold capitalize cursor-pointer pb-2 relative transition ${activeTab === tab ? 'text-neutral-900 after:absolute after:bottom-[-17px] after:left-0 after:w-full after:h-[2px] after:bg-black' : 'text-neutral-400 hover:text-neutral-700'
+                                }`}
                         >
                             {tab} {tab === 'reviews' && `(${featprod.reviews?.length || 120})`}
                         </button>
